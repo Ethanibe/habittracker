@@ -13,4 +13,4 @@ class Token(BaseModel):
     token_type : str
 
 class HabitCreate(BaseModel):
-    namec: str    
+    name: str    
