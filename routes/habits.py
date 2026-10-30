@@ -10,7 +10,7 @@ async def get_user_habits(user_id= Depends(get_current_user)):
     data = await db.habit.find_many(where={"userId": user_id})
     return {"data": data} 
 
-@router.post("/create")
+@router.post("/")
 async def create_habit(habit: HabitCreate, user_id = Depends(get_current_user)):
     data = await db.habit.create(data={"name": habit.name, "userId": user_id})
     return{
@@ -78,8 +78,5 @@ async def get_habit_history(habit_id: str, user_id=Depends(get_current_user)):
     if habit.userId != user_id:
         raise HTTPException(status_code=403, detail="You do not own this habit")
 
-    completions = await db.completion.find_many(
-        where={"habitId": habit_id},
-        order={"date": "desc"},
-    )
+    completions = await db.completion.find_many( where={"habitId": habit_id}, order={"date": "desc"})
     return {"data": completions}
